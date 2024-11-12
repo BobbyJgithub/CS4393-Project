@@ -7,7 +7,24 @@ export const fetchEventsThunk = createAsyncThunk(
   async (query, thunkAPI) => {
     try {
       const data = await fetchEvents(query);
-      return data._embedded.events; // Ticketmaster API wraps events in "_embedded"
+      // Combine both events and attractions from the suggest endpoint
+      const suggestions = [];
+      
+      if (data._embedded?.events) {
+        suggestions.push(...data._embedded.events.map(event => ({
+          ...event,
+          type: 'event'
+        })));
+      }
+      
+      if (data._embedded?.attractions) {
+        suggestions.push(...data._embedded.attractions.map(attraction => ({
+          ...attraction,
+          type: 'attraction'
+        })));
+      }
+      
+      return suggestions;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

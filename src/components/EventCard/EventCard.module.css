@@ -1,35 +1,42 @@
 /* src/App.css */
 
 .event-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 8px;
-    max-width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
-  }
-  
-  .event-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .event-card h3 {
-    font-size: 1.2em;
-    margin-bottom: 8px;
-  }
-  
-  .event-card p {
-    font-size: 0.9em;
-    color: #555;
-  }
-  
-  .event-card a {
-    text-decoration: none;
-    color: #0073e6;
-    font-weight: bold;
-  }
-  
-  .event-card a:hover {
-    color: #005bb5;
-  }
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+}
+
+.event-card h3 {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.event-card p {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.event-card a {
+  text-decoration: none;
+  color: #0073e6;
+  font-weight: bold;
+}
+
+.event-card a:hover {
+  color: #005bb5;
+}
+
+.image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
