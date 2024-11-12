@@ -4,6 +4,7 @@ import eventDetailsReducer from './eventDetailsSlice';
 import attractionDetailsReducer from './attractionDetailsSlice';
 import filterReducer from './filterSlice';
 import cartReducer from './cartSlice';
+import authReducer from './authSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     attractionDetails: attractionDetailsReducer,
     filters: filterReducer,
     cart: cartReducer,
+    auth: authReducer,
   },
 });
 
