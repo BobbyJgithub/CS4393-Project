@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEventsThunk, clearSearchResults } from '../../redux/eventsSlice';
 import SearchBar from '../SearchBar/SearchBar';
 import AuthModal from '../AuthModal/AuthModal';
+import FilterBar from '../FilterBar/FilterBar';
 import styles from './Header.module.css';
 
 function Header() {
@@ -12,9 +13,10 @@ function Header() {
   const navigate = useNavigate();
   const cartItems = useSelector(state => state.cart.items);
   const { isAuthenticated, user } = useSelector(state => state.auth);
+  const { type, filters } = useSelector(state => state.filters);
 
   const handleSearch = (query) => {
-    dispatch(fetchEventsThunk(query));
+    dispatch(fetchEventsThunk({ query, type, filters }));
     navigate('/');
   };
 
@@ -54,6 +56,7 @@ function Header() {
           )}
         </div>
       </div>
+      <FilterBar />
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(false)} />
       )}

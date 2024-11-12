@@ -5,35 +5,23 @@ import styles from './SearchBar.module.css';
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
 
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (query.trim()) {
-      onSearch(query);
-    }
-    setQuery('');
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-      setQuery('');
+      onSearch(query.trim());
     }
   };
 
   return (
-    <div className={styles["search-bar"]}>
+    <form onSubmit={handleSubmit} className={styles["search-bar"]}>
       <input
         type="text"
         value={query}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
+        onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for events..."
       />
-      <button onClick={handleSearch}>Search</button>
-    </div>
+      <button type="submit">Search</button>
+    </form>
   );
 }
 

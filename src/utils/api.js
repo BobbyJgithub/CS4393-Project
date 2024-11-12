@@ -2,18 +2,32 @@
 
 const API_BASE_URL = 'https://app.ticketmaster.com/discovery/v2';
 
-export const fetchEvents = async (query) => {
+const buildQueryString = (params) => {
+  const queryParams = new URLSearchParams();
+  queryParams.append('apikey', process.env.REACT_APP_TICKETMASTER_API_KEY);
+  
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) queryParams.append(key, value);
+  });
+  
+  return queryParams.toString();
+};
+
+export const fetchEvents = async (query, type = 'event', filters = {}) => {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/suggest?apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}&keyword=${query}`
-    );
+    const endpoint = type === 'event' ? 'events' : 'attractions';
+    const queryString = buildQueryString({ keyword: query, ...filters });
+    const response = await fetch(`${API_BASE_URL}/${endpoint}?${queryString}`);
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
     const data = await response.json();
-    return data;
+    const items = data._embedded?.[endpoint] || [];
+    return items.map(item => ({ ...item, type }));
   } catch (error) {
-    console.error('Error fetching suggestions:', error);
+    console.error('Error fetching results:', error);
     throw error;
   }
 };

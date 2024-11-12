@@ -4,6 +4,7 @@ import { fetchEventsThunk } from '../../redux/eventsSlice';
 import EventCard from '../../components/EventCard/EventCard';
 import styles from './Home.module.css';
 import { fetchPopularEvents, fetchPopularAttractions } from '../../utils/api';
+import SearchInfo from '../../components/SearchInfo/SearchInfo';
 
 function Home() {
   const dispatch = useDispatch();
@@ -97,6 +98,7 @@ function Home() {
 
   return (
     <div>
+      <SearchInfo />
       {searchResults}
       {!events.length && popularContent}
     </div>
