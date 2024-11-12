@@ -1,0 +1,28 @@
+.event-details {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    text-align: left;
+  }
+  
+  .event-details h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  .event-details p {
+    font-size: 1.1em;
+    margin: 8px 0;
+  }
+  
+  .event-details a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .event-details a:hover {
+    color: #005bb5;
+  }
