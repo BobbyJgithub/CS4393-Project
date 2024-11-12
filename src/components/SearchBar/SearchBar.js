@@ -13,11 +13,13 @@ function SearchBar({ onSearch }) {
     if (query.trim()) {
       onSearch(query);
     }
+    setQuery('');
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
+      setQuery('');
     }
   };
 

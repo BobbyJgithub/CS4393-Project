@@ -63,3 +63,35 @@ export const fetchEventsByAttractionId = async (id) => {
     throw error;
   }
 };
+
+export const fetchPopularEvents = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/events.json?sort=relevance,desc&size=8&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data._embedded?.events || [];
+  } catch (error) {
+    console.error('Error fetching popular events:', error);
+    throw error;
+  }
+};
+
+export const fetchPopularAttractions = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/attractions.json?sort=relevance,desc&size=8&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data._embedded?.attractions || [];
+  } catch (error) {
+    console.error('Error fetching popular attractions:', error);
+    throw error;
+  }
+};

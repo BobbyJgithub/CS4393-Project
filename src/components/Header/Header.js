@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEventsThunk } from '../../redux/eventsSlice';
+import { fetchEventsThunk, clearSearchResults } from '../../redux/eventsSlice';
 import SearchBar from '../SearchBar/SearchBar';
 import styles from './Header.module.css';
 
@@ -15,10 +15,16 @@ function Header() {
     navigate('/');
   };
 
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    dispatch(clearSearchResults());
+    navigate('/');
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link to="/" className={styles.logo}>
+        <Link to="/" className={styles.logo} onClick={handleLogoClick}>
           TIX
         </Link>
         <div className={styles['search-container']}>

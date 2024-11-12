@@ -38,7 +38,13 @@ const eventsSlice = createSlice({
     isLoading: false,
     hasError: false,
   },
-  reducers: {},
+  reducers: {
+    clearSearchResults: (state) => {
+      state.events = [];
+      state.isLoading = false;
+      state.hasError = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchEventsThunk.pending, (state) => {
@@ -55,5 +61,7 @@ const eventsSlice = createSlice({
       });
   },
 });
+
+export const { clearSearchResults } = eventsSlice.actions;
 
 export default eventsSlice.reducer;
