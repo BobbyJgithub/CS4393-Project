@@ -1,4 +1,3 @@
-
 const USERS_STORAGE_KEY = 'tix_users';
 
 export const registerUser = (username, password) => {
@@ -12,6 +11,7 @@ export const registerUser = (username, password) => {
     id: Date.now().toString(),
     username,
     password, // In a real app, never store plain text passwords
+    favorites: [],
     createdAt: new Date().toISOString()
   };
 
@@ -29,4 +29,33 @@ export const loginUser = (username, password) => {
   }
 
   return { id: user.id, username: user.username };
+};
+
+export const toggleFavorite = (userId, attraction) => {
+  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const userIndex = users.findIndex(u => u.id === userId);
+  
+  if (userIndex === -1) return [];
+
+  // Ensure user has a favorites array
+  if (!users[userIndex].favorites) {
+    users[userIndex].favorites = [];
+  }
+
+  const favoriteIndex = users[userIndex].favorites.findIndex(fav => fav.id === attraction.id);
+
+  if (favoriteIndex === -1) {
+    users[userIndex].favorites.push(attraction);
+  } else {
+    users[userIndex].favorites.splice(favoriteIndex, 1);
+  }
+
+  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  return users[userIndex].favorites;
+};
+
+export const getFavorites = (userId) => {
+  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const user = users.find(u => u.id === userId);
+  return user?.favorites || [];
 };

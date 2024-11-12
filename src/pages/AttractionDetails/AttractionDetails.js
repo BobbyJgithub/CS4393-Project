@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { fetchAttractionDetailsThunk, fetchAttractionEventsThunk } from '../../redux/attractionDetailsSlice';
+import { toggleFavorite, getFavorites } from '../../utils/auth';
 import styles from './AttractionDetails.module.css';
 
 function AttractionDetails() {
@@ -15,11 +16,22 @@ function AttractionDetails() {
     isLoadingEvents,
     hasEventsError 
   } = useSelector((state) => state.attractionDetails);
+  const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(fetchAttractionDetailsThunk(id));
     dispatch(fetchAttractionEventsThunk(id));
   }, [dispatch, id]);
+
+  const favorites = user ? (getFavorites(user.id) || []) : [];
+  const isFavorite = favorites.some(fav => fav.id === attraction?.id);
+
+  const handleFavorite = (e) => {
+    e.preventDefault();
+    if (!user) return;
+    toggleFavorite(user.id, { ...attraction, type: 'attraction' });
+    window.dispatchEvent(new Event('storage'));
+  };
 
   if (isLoading) return <p>Loading attraction details...</p>;
   if (hasError) return <p>Failed to load attraction details.</p>;
@@ -34,7 +46,17 @@ function AttractionDetails() {
           className={styles["hero-image"]}
         />
         <div className={styles["hero-content"]}>
-          <h1>{attraction.name}</h1>
+          <div className={styles["hero-header"]}>
+            <h1>{attraction.name}</h1>
+            {user && (
+              <button 
+                onClick={handleFavorite}
+                className={`${styles.heartButton} ${isFavorite ? styles.favorite : ''}`}
+              >
+                ❤️
+              </button>
+            )}
+          </div>
           {attraction.classifications?.[0] && (
             <h2>{attraction.classifications[0].segment?.name} - {attraction.classifications[0].genre?.name}</h2>
           )}

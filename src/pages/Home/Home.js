@@ -13,6 +13,17 @@ function Home() {
   const [isLoadingPopular, setIsLoadingPopular] = useState(true);
   const [error, setError] = useState(null);
 
+
+    // Automatically refresh once if an error occurs
+    useEffect(() => {
+      if (hasError) {
+        window.location.reload(); // Refresh the page
+      }
+      if (error) {
+        window.location.reload(); // Refresh the page
+      }
+    }, [hasError, error]);
+
   useEffect(() => {
     const fetchPopularContent = async () => {
       try {
