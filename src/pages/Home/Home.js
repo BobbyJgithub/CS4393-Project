@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEventsThunk } from '../../redux/eventsSlice';
 import EventCard from '../../components/EventCard/EventCard';
-import SearchBar from '../../components/SearchBar/SearchBar';
 import styles from './Home.module.css';
 
 function Home() {
@@ -10,12 +9,10 @@ function Home() {
   const { events, isLoading, hasError } = useSelector((state) => state.events);
 
   useEffect(() => {
-    dispatch(fetchEventsThunk('music')); // Initial load with a default query
-  }, [dispatch]);
-
-  const handleSearch = (query) => {
-    dispatch(fetchEventsThunk(query));
-  };
+    if (!events.length) {
+      dispatch(fetchEventsThunk('music')); // Initial load only if no events
+    }
+  }, [dispatch, events.length]);
 
   if (isLoading) return <p>Loading events...</p>;
   if (hasError) return <p>Failed to load events.</p>;
@@ -25,8 +22,6 @@ function Home() {
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
-      
       {eventsList.length > 0 && (
         <div className={styles["section"]}>
           <h2>Events</h2>

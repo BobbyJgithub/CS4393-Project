@@ -47,3 +47,19 @@ export const fetchAttractionById = async (id) => {
     throw error;
   }
 };
+
+export const fetchEventsByAttractionId = async (id) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/events?apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}&attractionId=${id}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching attraction events:', error);
+    throw error;
+  }
+};

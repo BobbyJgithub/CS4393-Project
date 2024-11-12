@@ -1,17 +1,24 @@
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchAttractionDetailsThunk } from '../../redux/attractionDetailsSlice';
+import { useParams, Link } from 'react-router-dom';
+import { fetchAttractionDetailsThunk, fetchAttractionEventsThunk } from '../../redux/attractionDetailsSlice';
 import styles from './AttractionDetails.module.css';
 
 function AttractionDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { attraction, isLoading, hasError } = useSelector((state) => state.attractionDetails);
+  const { 
+    attraction, 
+    events,
+    isLoading, 
+    hasError,
+    isLoadingEvents,
+    hasEventsError 
+  } = useSelector((state) => state.attractionDetails);
 
   useEffect(() => {
     dispatch(fetchAttractionDetailsThunk(id));
+    dispatch(fetchAttractionEventsThunk(id));
   }, [dispatch, id]);
 
   if (isLoading) return <p>Loading attraction details...</p>;
@@ -49,6 +56,37 @@ function AttractionDetails() {
               <p>{attraction.additionalInfo}</p>
             </section>
           )}
+
+          <section className={styles["events-section"]}>
+            <h3>Upcoming Events</h3>
+            {isLoadingEvents && <p>Loading events...</p>}
+            {hasEventsError && <p>Failed to load events.</p>}
+            {events.length === 0 && !isLoadingEvents && <p>No upcoming events.</p>}
+            <div className={styles["events-grid"]}>
+              {events.map(event => (
+                <Link 
+                  to={`/event/${event.id}`} 
+                  key={event.id}
+                  className={styles["event-card"]}
+                >
+                  <img 
+                    src={event.images?.find(img => img.ratio === "16_9")?.url || event.images?.[0]?.url}
+                    alt={event.name}
+                  />
+                  <h4>{event.name}</h4>
+                  <p>{new Date(event.dates.start.dateTime).toLocaleDateString()}</p>
+                  {event._embedded?.venues?.[0] && (
+                    <p>
+                      {event._embedded.venues[0].city?.name}
+                      {event._embedded.venues[0].state?.stateCode && 
+                        `, ${event._embedded.venues[0].state.stateCode}`
+                      }
+                    </p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
         </div>
 
         <div className={styles["side-info"]}>
