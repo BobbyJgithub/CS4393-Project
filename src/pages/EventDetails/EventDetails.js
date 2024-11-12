@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchEventDetailsThunk } from '../../redux/eventDetailsSlice';
 import styles from './EventDetails.module.css';
+import TicketSelector from '../../components/TicketSelector/TicketSelector';
 
 function EventDetails() {
   const { id } = useParams();
@@ -59,6 +60,10 @@ function EventDetails() {
               <p>{event._embedded.venues[0].city?.name}, {event._embedded.venues[0].state?.stateCode}</p>
             </section>
           )}
+
+          <section>
+            <TicketSelector event={event} />
+          </section>
         </div>
 
         <div className={styles["side-info"]}>
