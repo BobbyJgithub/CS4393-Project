@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser, setError } from '../../redux/authSlice';
@@ -27,6 +26,7 @@ function AuthModal({ onClose }) {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
+        <button className={styles.closeIcon} onClick={onClose}>×</button>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -46,7 +46,6 @@ function AuthModal({ onClose }) {
         <button onClick={() => setIsLogin(!isLogin)}>
           {isLogin ? 'Need an account? Register' : 'Have an account? Login'}
         </button>
-        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );
