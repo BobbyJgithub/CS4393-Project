@@ -1,13 +1,18 @@
 // src/components/SearchBar.js
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './SearchBar.module.css';
 
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
+  const { filters } = useSelector(state => state.filters);
+
+  const hasActiveFilters = Object.values(filters).some(value => value !== '');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query.trim()) {
+    // Allow search if there's a query OR if there are active filters
+    if (query.trim() || hasActiveFilters) {
       onSearch(query.trim());
     }
   };

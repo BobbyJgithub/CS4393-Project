@@ -5,16 +5,53 @@ const API_BASE_URL = 'https://app.ticketmaster.com/discovery/v2';
 const buildQueryString = (params) => {
   const queryParams = new URLSearchParams();
   queryParams.append('apikey', process.env.REACT_APP_TICKETMASTER_API_KEY);
+  queryParams.append('locale', '*');  // Add default locale
   
   Object.entries(params).forEach(([key, value]) => {
-    if (value) queryParams.append(key, value);
+    if (value && key !== 'keyword') queryParams.append(key, value);  // Apply non-empty filters
   });
+  
+  // Only add keyword if it exists
+  if (params.keyword) {
+    queryParams.append('keyword', params.keyword);
+  }
   
   return queryParams.toString();
 };
 
-export const fetchEvents = async (query, type = 'event', filters = {}) => {
+export const fetchEvents = async (query = '', type = '', filters = {}) => {
   try {
+    // If there are no filters and no query, return empty array
+    if (!query && Object.values(filters).every(v => !v)) {
+      return [];
+    }
+
+    if (type === '') {
+      // Search both endpoints when no type is specified
+      const [eventsResponse, attractionsResponse] = await Promise.all([
+        fetch(`${API_BASE_URL}/events?${buildQueryString({ keyword: query, ...filters })}`),
+        fetch(`${API_BASE_URL}/attractions?${buildQueryString({ keyword: query, ...filters })}`)
+      ]);
+
+      if (!eventsResponse.ok || !attractionsResponse.ok) {
+        throw new Error(`HTTP error! status: ${eventsResponse.status || attractionsResponse.status}`);
+      }
+
+      const [eventsData, attractionsData] = await Promise.all([
+        eventsResponse.json(),
+        attractionsResponse.json()
+      ]);
+
+      const events = eventsData._embedded?.events || [];
+      const attractions = attractionsData._embedded?.attractions || [];
+
+      return [
+        ...events.map(item => ({ ...item, type: 'event' })),
+        ...attractions.map(item => ({ ...item, type: 'attraction' }))
+      ];
+    }
+
+    // Original single endpoint logic
     const endpoint = type === 'event' ? 'events' : 'attractions';
     const queryString = buildQueryString({ keyword: query, ...filters });
     const response = await fetch(`${API_BASE_URL}/${endpoint}?${queryString}`);

@@ -47,11 +47,11 @@ function Home() {
 
   const searchResults = events.length > 0 && (
     <>
-      {events.filter(item => item.type === 'event').length > 0 && (
+      {events.filter(item => item.type === 'event' || !item.type).length > 0 && (
         <div className={styles["section"]}>
-          <h2>Search Results</h2>
+          <h2>Events</h2>
           <div className={styles["events-container"]}>
-            {events.filter(item => item.type === 'event').map((event) => (
+            {events.filter(item => item.type === 'event' || !item.type).map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </div>
@@ -60,7 +60,7 @@ function Home() {
 
       {events.filter(item => item.type === 'attraction').length > 0 && (
         <div className={styles["section"]}>
-          <h2>Search Results</h2>
+          <h2>Attractions</h2>
           <div className={styles["events-container"]}>
             {events.filter(item => item.type === 'attraction').map((attraction) => (
               <EventCard key={attraction.id} event={attraction} />

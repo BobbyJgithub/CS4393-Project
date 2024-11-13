@@ -97,6 +97,14 @@ function FilterBar() {
       <div className={styles.typeSelector}>
         <button
           className={`${styles.typeButton} ${
+            type === "" ? styles.active : ""
+          }`}
+          onClick={() => handleTypeChange("")}
+        >
+          All
+        </button>
+        <button
+          className={`${styles.typeButton} ${
             type === "event" ? styles.active : ""
           }`}
           onClick={() => handleTypeChange("event")}
@@ -112,7 +120,7 @@ function FilterBar() {
           Attractions
         </button>
       </div>
-      {type === "event" ? renderEventFilters() : renderAttractionFilters()}
+      {type === "event" ? renderEventFilters() : type === "attraction" ? renderAttractionFilters() : null}
     </div>
   );
 }
