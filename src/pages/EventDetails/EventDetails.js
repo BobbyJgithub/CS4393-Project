@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchEventDetailsThunk } from '../../redux/eventDetailsSlice';
-import { fetchVenueDetailsThunk } from '../../redux/venueDetailsSlice';
+import { fetchEventDetailsThunk } from '../../redux/slices/eventDetailsSlice';
+import { fetchVenueDetailsThunk } from '../../redux/slices/venueDetailsSlice';
 import styles from './EventDetails.module.css';
 import TicketSelector from '../../components/TicketSelector/TicketSelector';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEventsThunk } from '../../redux/eventsSlice';
+import { fetchEventsThunk } from '../../redux/slices/eventsSlice';
 import EventCard from '../../components/EventCard/EventCard';
 import styles from './Home.module.css';
 import { fetchPopularEvents, fetchPopularAttractions } from '../../utils/api';

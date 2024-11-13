@@ -1,4 +1,4 @@
-import eventsReducer, { fetchEventsThunk } from './eventsSlice';
+import eventsReducer, { fetchEventsThunk } from '../eventsSlice';
 
 const initialState = {
   events: [],
@@ -13,7 +13,7 @@ test('sets loading state when fetchEventsThunk is pending', () => {
   expect(state.hasError).toBe(false);
 });
 
-test('sets events data when fetchEventsThunk is fulfilled', () => {
+test('sets events mockData when fetchEventsThunk is fulfilled', () => {
   const mockEvents = [{ id: '1', name: 'Mock Event' }];
   const action = { type: fetchEventsThunk.fulfilled.type, payload: mockEvents };
   const state = eventsReducer(initialState, action);

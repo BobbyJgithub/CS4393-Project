@@ -1,6 +1,6 @@
 // src/redux/eventDetailsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchEventById } from '../utils/api';
+import { fetchEventById } from '../../utils/api';
 
 export const fetchEventDetailsThunk = createAsyncThunk(
   'eventDetails/fetchEventDetails',

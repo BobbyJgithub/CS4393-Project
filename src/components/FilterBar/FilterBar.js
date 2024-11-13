@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setType, setFilters, clearFilters } from "../../redux/filterSlice";
+import { setType, setFilters, clearFilters } from "../../redux/slices/filterSlice";
 import styles from "./FilterBar.module.css";
 
 function FilterBar() {

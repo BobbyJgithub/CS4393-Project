@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser, setError } from '../../redux/authSlice';
+import { setUser, setError } from '../../redux/slices/authSlice';
 import { registerUser, loginUser } from '../../utils/auth';
 import styles from './AuthModal.module.css';
 

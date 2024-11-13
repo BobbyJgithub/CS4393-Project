@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../redux/cartSlice';
-import { generateMockTickets } from '../../data/mockTicketData';
+import { addToCart } from '../../redux/slices/cartSlice';
+import { generateMockTickets } from '../../assets/mockData/mockTicketData';
 import styles from './TicketSelector.module.css';
 import { isVerifiedFan } from '../../utils/auth';
 

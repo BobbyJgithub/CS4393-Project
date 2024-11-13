@@ -1,4 +1,4 @@
-// src/data/mockTicketData.js
+// src/mockData/mockTicketData.js
 
 export const generateMockTickets = (eventId, isVerifiedFan = false) => {
   const sections = [

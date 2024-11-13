@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { fetchAttractionDetailsThunk, fetchAttractionEventsThunk } from '../../redux/attractionDetailsSlice';
+import { fetchAttractionDetailsThunk, fetchAttractionEventsThunk } from '../../redux/slices/attractionDetailsSlice';
 import { toggleFavorite, getFavorites, submitVerifiedFanRequest } from '../../utils/auth';
 import styles from './AttractionDetails.module.css';
 

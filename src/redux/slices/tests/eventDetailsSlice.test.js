@@ -1,4 +1,4 @@
-import eventDetailsReducer, { fetchEventDetailsThunk } from './eventDetailsSlice';
+import eventDetailsReducer, { fetchEventDetailsThunk } from '../eventDetailsSlice';
 
 const initialState = {
   event: null,
@@ -13,7 +13,7 @@ test('sets loading state when fetchEventDetailsThunk is pending', () => {
   expect(state.hasError).toBe(false);
 });
 
-test('sets event data when fetchEventDetailsThunk is fulfilled', () => {
+test('sets event mockData when fetchEventDetailsThunk is fulfilled', () => {
   const mockEvent = { id: '1', name: 'Mock Event' };
   const action = { type: fetchEventDetailsThunk.fulfilled.type, payload: mockEvent };
   const state = eventDetailsReducer(initialState, action);
