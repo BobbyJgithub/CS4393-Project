@@ -31,40 +31,40 @@ function Profile() {
       window.addEventListener('storage', updateUserData);
       return () => window.removeEventListener('storage', updateUserData);
     }
-  }, [user]);
+  }, [user, verifiedFans, favorites]);
 
   if (!user) return <Navigate to="/" />;
 
   return (
     <div className={styles.profile}>
       <h1>Profile</h1>
-      <div className={styles.info}>
+      <div className={styles.section}>
         <p><strong>Username:</strong> {user.username}</p>
         <p><strong>Member since:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
       </div>
 
-      <div className={styles.favorites}>
-        <h2>Favorite Attractions</h2>
-        <div className={styles.favoriteGrid}>
-          {favorites.map(attraction => (
-            <EventCard key={attraction.id} event={attraction} />
-          ))}
-        </div>
-      </div>
+<div className={`${styles.section} ${styles.favorites}`}>
+  <h2>Favorite Attractions</h2>
+  <div className={styles.favoriteGrid}>
+    {favorites.map(attraction => (
+      <EventCard key={attraction.id} event={attraction} />
+    ))}
+  </div>
+</div>
 
-      <div className={styles.verifiedFans}>
-        <h2>Verified Fan Of</h2>
-        <div className={styles.favoriteGrid}>
-          {verifiedFans.map(attraction => (
-            <div key={attraction.id} className={styles.verifiedFanCard}>
-              <EventCard event={attraction} />
-              <p className={styles.verificationDate}>
-                Verified since: {new Date(attraction.verifiedAt).toLocaleDateString()}
-              </p>
-            </div>
-          ))}
-        </div>
+<div className={`${styles.section} ${styles.verifiedFans}`}>
+  <h2>Verified Fan Of</h2>
+  <div className={styles.favoriteGrid}>
+    {verifiedFans.map(attraction => (
+      <div key={attraction.id} className={styles.verifiedFanCard}>
+        <EventCard event={attraction} />
+        <p className={styles.verificationDate}>
+          Verified since: {new Date(attraction.verifiedAt).toLocaleDateString()}
+        </p>
       </div>
+    ))}
+  </div>
+</div>
 
       <button onClick={handleLogout} className={styles.logoutButton}>
         Logout
