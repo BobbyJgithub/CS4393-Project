@@ -146,3 +146,19 @@ export const fetchPopularAttractions = async () => {
     throw error;
   }
 };
+
+export const fetchVenueById = async (id) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/venues/${id}?apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching venue details:', error);
+    throw error;
+  }
+};

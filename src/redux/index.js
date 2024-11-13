@@ -5,6 +5,7 @@ import attractionDetailsReducer from './attractionDetailsSlice';
 import filterReducer from './filterSlice';
 import cartReducer from './cartSlice';
 import authReducer from './authSlice';
+import venueDetailsReducer from './venueDetailsSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     filters: filterReducer,
     cart: cartReducer,
     auth: authReducer,
+    venueDetails: venueDetailsReducer,
   },
 });
 
