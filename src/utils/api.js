@@ -118,7 +118,7 @@ export const fetchEventsByAttractionId = async (id) => {
 export const fetchPopularEvents = async () => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/events.json?sort=relevance,desc&size=5&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
+      `${API_BASE_URL}/events.json?sort=relevance,desc&size=10&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -134,7 +134,7 @@ export const fetchPopularEvents = async () => {
 export const fetchPopularAttractions = async () => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/attractions.json?sort=relevance,desc&size=5&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
+      `${API_BASE_URL}/attractions.json?sort=relevance,desc&size=10&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

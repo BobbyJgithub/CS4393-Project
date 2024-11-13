@@ -267,13 +267,6 @@ function EventDetails() {
             </section>
           )}
 
-          {event.accessibility && (
-            <section>
-              <h3>Accessibility</h3>
-              <p>{event.accessibility.info}</p>
-            </section>
-          )}
-
           {event.ticketLimit && (
             <section>
               <h3>Ticket Limit</h3>
@@ -281,17 +274,6 @@ function EventDetails() {
             </section>
           )}
         </div>
-      </div>
-
-      <div className={styles["cta-section"]}>
-        <a 
-          href={event.url} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className={styles["buy-button"]}
-        >
-          Buy Tickets
-        </a>
       </div>
     </div>
   );
