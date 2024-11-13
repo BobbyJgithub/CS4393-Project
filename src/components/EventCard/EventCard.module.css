@@ -1,4 +1,4 @@
-/* src/App.css */
+/* src/components/EventCard.module.css */
 
 .event-card {
   border: 1px solid #ddd;
@@ -51,7 +51,7 @@
 }
 
 .heartButton {
-  background: none;
+  background: transparent; /* Ensure background is transparent */
   border: none;
   cursor: pointer;
   padding: 0;
@@ -63,14 +63,16 @@
 
 .heartButton:hover {
   transform: scale(1.2);
+  background: transparent;
 }
 
 .heartButton .lucide-heart {
   width: 24px;
   height: 24px;
+  fill: none; /* Ensure the default fill is none */
 }
 
 .heartButton.favorite .lucide-heart {
-  fill: red;
-  color:red;
+  fill: red; /* Fill the heart icon red when favorite */
+  color: red; /* Ensure the color is red */
 }
