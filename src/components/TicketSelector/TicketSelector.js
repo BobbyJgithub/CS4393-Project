@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';
 import { generateMockTickets } from '../../data/mockTicketData';
 import styles from './TicketSelector.module.css';
+import { isVerifiedFan } from '../../utils/auth';
 
 function TicketSelector({ event }) {
   const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
   const [ticketData, setTicketData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    setTicketData(generateMockTickets(event.id));
-  }, [event.id]);
+    const userIsVerifiedFan = user && event._embedded?.attractions?.[0]?.id
+      ? isVerifiedFan(user.id, event._embedded.attractions[0].id)
+      : false;
+    
+    setTicketData(generateMockTickets(event.id, userIsVerifiedFan));
+  }, [event.id, user]);
 
   const selectedSectionData = ticketData.find(section => section.sectionId === selectedSection);
   const selectedTypeData = selectedSectionData?.types.find(type => type.typeId === selectedType);

@@ -59,3 +59,41 @@ export const getFavorites = (userId) => {
   const user = users.find(u => u.id === userId);
   return user?.favorites || [];
 };
+
+export const submitVerifiedFanRequest = (userId, attraction, reason) => {
+  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const userIndex = users.findIndex(u => u.id === userId);
+  
+  if (userIndex === -1) return false;
+
+  // Initialize verifiedFans array if it doesn't exist
+  if (!users[userIndex].verifiedFans) {
+    users[userIndex].verifiedFans = [];
+  }
+
+  // Check if already a verified fan
+  const isAlreadyVerified = users[userIndex].verifiedFans.some(fan => fan.id === attraction.id);
+  if (isAlreadyVerified) return false;
+
+  // Add to verified fans
+  users[userIndex].verifiedFans.push({
+    ...attraction,
+    verifiedAt: new Date().toISOString(),
+    reason
+  });
+
+  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  return true;
+};
+
+export const getVerifiedFans = (userId) => {
+  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const user = users.find(u => u.id === userId);
+  return user?.verifiedFans || [];
+};
+
+export const isVerifiedFan = (userId, attractionId) => {
+  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const user = users.find(u => u.id === userId);
+  return user?.verifiedFans?.some(fan => fan.id === attractionId) || false;
+};

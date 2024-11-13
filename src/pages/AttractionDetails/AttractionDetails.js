@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { fetchAttractionDetailsThunk, fetchAttractionEventsThunk } from '../../redux/attractionDetailsSlice';
-import { toggleFavorite, getFavorites } from '../../utils/auth';
+import { toggleFavorite, getFavorites, submitVerifiedFanRequest } from '../../utils/auth';
 import styles from './AttractionDetails.module.css';
 
 function AttractionDetails() {
@@ -18,6 +18,9 @@ function AttractionDetails() {
   } = useSelector((state) => state.attractionDetails);
   const { user } = useSelector(state => state.auth);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fanRequest, setFanRequest] = useState('');
+
   useEffect(() => {
     dispatch(fetchAttractionDetailsThunk(id));
     dispatch(fetchAttractionEventsThunk(id));
@@ -31,6 +34,27 @@ function AttractionDetails() {
     if (!user) return;
     toggleFavorite(user.id, { ...attraction, type: 'attraction' });
     window.dispatchEvent(new Event('storage'));
+  };
+
+  const handleOpenModal = () => {
+    if (!user) {
+      alert('Please log in to submit a verified fan request');
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleSubmitFanRequest = (e) => {
+    e.preventDefault();
+    const success = submitVerifiedFanRequest(user.id, { ...attraction, type: 'attraction' }, fanRequest);
+    if (success) {
+      alert('Your verified fan request has been approved!');
+      window.dispatchEvent(new Event('storage'));
+    } else {
+      alert('You are already a verified fan of this attraction.');
+    }
+    setIsModalOpen(false);
+    setFanRequest('');
   };
 
   if (isLoading) return <p>Loading attraction details...</p>;
@@ -48,14 +72,22 @@ function AttractionDetails() {
         <div className={styles["hero-content"]}>
           <div className={styles["hero-header"]}>
             <h1>{attraction.name}</h1>
-            {user && (
+            <div className={styles["action-buttons"]}>
+              {user && (
+                <button 
+                  onClick={handleFavorite}
+                  className={`${styles.heartButton} ${isFavorite ? styles.favorite : ''}`}
+                >
+                  ❤️
+                </button>
+              )}
               <button 
-                onClick={handleFavorite}
-                className={`${styles.heartButton} ${isFavorite ? styles.favorite : ''}`}
+                onClick={handleOpenModal}
+                className={styles.verifiedFanButton}
               >
-                ❤️
+                Become a Verified Fan
               </button>
-            )}
+            </div>
           </div>
           {attraction.classifications?.[0] && (
             <h2>{attraction.classifications[0].segment?.name} - {attraction.classifications[0].genre?.name}</h2>
@@ -147,6 +179,28 @@ function AttractionDetails() {
           )}
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2>Become a Verified Fan</h2>
+            <p>Tell us why you want to become a verified fan of {attraction.name}</p>
+            <form onSubmit={handleSubmitFanRequest}>
+              <textarea
+                value={fanRequest}
+                onChange={(e) => setFanRequest(e.target.value)}
+                placeholder="Write your request here..."
+                rows={5}
+                required
+              />
+              <div className={styles.modalButtons}>
+                <button type="button" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                <button type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

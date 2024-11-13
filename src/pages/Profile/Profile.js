@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate, Navigate } from 'react-router-dom';
 import styles from './Profile.module.css';
-import { getFavorites } from '../../utils/auth';
+import { getFavorites, getVerifiedFans } from '../../utils/auth';
 import EventCard from '../../components/EventCard/EventCard';
 
 function Profile() {
@@ -11,6 +11,7 @@ function Profile() {
   const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
   const [favorites, setFavorites] = useState([]);
+  const [verifiedFans, setVerifiedFans] = useState([]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -19,14 +20,16 @@ function Profile() {
 
   useEffect(() => {
     if (user) {
-      const updateFavorites = () => {
+      const updateUserData = () => {
         const userFavorites = getFavorites(user.id) || [];
+        const userVerifiedFans = getVerifiedFans(user.id) || [];
         setFavorites(userFavorites);
+        setVerifiedFans(userVerifiedFans);
       };
 
-      updateFavorites();
-      window.addEventListener('storage', updateFavorites);
-      return () => window.removeEventListener('storage', updateFavorites);
+      updateUserData();
+      window.addEventListener('storage', updateUserData);
+      return () => window.removeEventListener('storage', updateUserData);
     }
   }, [user]);
 
@@ -45,6 +48,20 @@ function Profile() {
         <div className={styles.favoriteGrid}>
           {favorites.map(attraction => (
             <EventCard key={attraction.id} event={attraction} />
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.verifiedFans}>
+        <h2>Verified Fan Of</h2>
+        <div className={styles.favoriteGrid}>
+          {verifiedFans.map(attraction => (
+            <div key={attraction.id} className={styles.verifiedFanCard}>
+              <EventCard event={attraction} />
+              <p className={styles.verificationDate}>
+                Verified since: {new Date(attraction.verifiedAt).toLocaleDateString()}
+              </p>
+            </div>
           ))}
         </div>
       </div>

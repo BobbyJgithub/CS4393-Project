@@ -50,3 +50,18 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
+
+.verifiedFans {
+  margin: 2rem 0;
+}
+
+.verifiedFanCard {
+  position: relative;
+}
+
+.verificationDate {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}

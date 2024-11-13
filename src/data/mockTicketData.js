@@ -1,7 +1,6 @@
-
 // src/data/mockTicketData.js
 
-export const generateMockTickets = (eventId) => {
+export const generateMockTickets = (eventId, isVerifiedFan = false) => {
   const sections = [
     { id: 'A1', name: 'Floor Section A', capacity: 100 },
     { id: 'A2', name: 'Floor Section B', capacity: 100 },
@@ -11,12 +10,28 @@ export const generateMockTickets = (eventId) => {
     { id: 'C2', name: 'Upper Level 400', capacity: 300 },
   ];
 
-  const ticketTypes = [
+  const standardTicketTypes = [
     { id: 'standard', name: 'Standard', multiplier: 1 },
     { id: 'vip', name: 'VIP Package', multiplier: 2.5 },
     { id: 'platinum', name: 'Platinum', multiplier: 3 },
     { id: 'meet-greet', name: 'Meet & Greet Package', multiplier: 4 },
   ];
+
+  const verifiedFanTicket = {
+    id: 'verified-fan',
+    name: 'Verified Fan Ticket',
+    multiplier: 1.5,
+    perks: [
+      'Priority Entry',
+      'Exclusive Merch Options',
+      'Special Access Area',
+      'Fan Recognition'
+    ]
+  };
+
+  const ticketTypes = isVerifiedFan 
+    ? [...standardTicketTypes, verifiedFanTicket]
+    : standardTicketTypes;
 
   // Generate different base prices for each section
   return sections.map(section => {
@@ -32,10 +47,12 @@ export const generateMockTickets = (eventId) => {
         name: type.name,
         price: Math.floor(basePrice * type.multiplier),
         available: Math.floor(availableTickets / ticketTypes.length),
-        perks: type.id === 'vip' ? ['Early Entry', 'Exclusive Merch'] :
-               type.id === 'platinum' ? ['Premium Seats', 'Parking Pass', 'Lounge Access'] :
-               type.id === 'meet-greet' ? ['Meet & Greet', 'Photo Op', 'Signed Merch', 'VIP Entrance'] : 
-               ['Standard Entry']
+        perks: type.perks || (
+          type.id === 'vip' ? ['Early Entry', 'Exclusive Merch'] :
+          type.id === 'platinum' ? ['Premium Seats', 'Parking Pass', 'Lounge Access'] :
+          type.id === 'meet-greet' ? ['Meet & Greet', 'Photo Op', 'Signed Merch', 'VIP Entrance'] : 
+          ['Standard Entry']
+        )
       }))
     };
   });
