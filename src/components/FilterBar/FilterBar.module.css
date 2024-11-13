@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-height: 1rem;
+}
+
+.typeSelector {
+  display: flex;
+  align-items: center;
+}
+
+.typeButton {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  margin-left: 1rem;
+}
+
+.typeButton.active {
+  background-color: var(--secondary-color);
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+}
+
+.filterSelect {
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-color);
+}
+
+.filterInput {
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-color);
+}

@@ -1,11 +1,11 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setType, setFilters, clearFilters } from '../../redux/filterSlice';
-import styles from './FilterBar.module.css';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setType, setFilters, clearFilters } from "../../redux/filterSlice";
+import styles from "./FilterBar.module.css";
 
 function FilterBar() {
   const dispatch = useDispatch();
-  const { type, filters } = useSelector(state => state.filters);
+  const { type, filters } = useSelector((state) => state.filters);
 
   const handleTypeChange = (newType) => {
     dispatch(setType(newType));
@@ -19,8 +19,9 @@ function FilterBar() {
   const renderEventFilters = () => (
     <div className={styles.filters}>
       <select
-        value={filters.sort || ''}
-        onChange={(e) => handleFilterChange('sort', e.target.value)}
+        className={styles.filterSelect}
+        value={filters.sort || ""}
+        onChange={(e) => handleFilterChange("sort", e.target.value)}
       >
         <option value="">Sort By</option>
         <option value="date,asc">Date (Ascending)</option>
@@ -30,8 +31,9 @@ function FilterBar() {
       </select>
 
       <select
-        value={filters.countryCode || ''}
-        onChange={(e) => handleFilterChange('countryCode', e.target.value)}
+        className={styles.filterSelect}
+        value={filters.countryCode || ""}
+        onChange={(e) => handleFilterChange("countryCode", e.target.value)}
       >
         <option value="">Country</option>
         <option value="US">United States</option>
@@ -39,15 +41,19 @@ function FilterBar() {
       </select>
 
       <input
+        className={styles.filterInput}
         type="text"
         placeholder="City"
-        value={filters.city || ''}
-        onChange={(e) => handleFilterChange('city', e.target.value)}
+        value={filters.city || ""}
+        onChange={(e) => handleFilterChange("city", e.target.value)}
       />
 
       <select
-        value={filters.classificationName || ''}
-        onChange={(e) => handleFilterChange('classificationName', e.target.value)}
+        className={styles.filterSelect}
+        value={filters.classificationName || ""}
+        onChange={(e) =>
+          handleFilterChange("classificationName", e.target.value)
+        }
       >
         <option value="">Category</option>
         <option value="Music">Music</option>
@@ -61,8 +67,9 @@ function FilterBar() {
   const renderAttractionFilters = () => (
     <div className={styles.filters}>
       <select
-        value={filters.sort || ''}
-        onChange={(e) => handleFilterChange('sort', e.target.value)}
+        className={styles.filterSelect}
+        value={filters.sort || ""}
+        onChange={(e) => handleFilterChange("sort", e.target.value)}
       >
         <option value="">Sort By</option>
         <option value="name,asc">Name (A-Z)</option>
@@ -70,8 +77,11 @@ function FilterBar() {
       </select>
 
       <select
-        value={filters.classificationName || ''}
-        onChange={(e) => handleFilterChange('classificationName', e.target.value)}
+        className={styles.filterSelect}
+        value={filters.classificationName || ""}
+        onChange={(e) =>
+          handleFilterChange("classificationName", e.target.value)
+        }
       >
         <option value="">Category</option>
         <option value="Music">Music</option>
@@ -86,19 +96,23 @@ function FilterBar() {
     <div className={styles.container}>
       <div className={styles.typeSelector}>
         <button
-          className={`${styles.typeButton} ${type === 'event' ? styles.active : ''}`}
-          onClick={() => handleTypeChange('event')}
+          className={`${styles.typeButton} ${
+            type === "event" ? styles.active : ""
+          }`}
+          onClick={() => handleTypeChange("event")}
         >
           Events
         </button>
         <button
-          className={`${styles.typeButton} ${type === 'attraction' ? styles.active : ''}`}
-          onClick={() => handleTypeChange('attraction')}
+          className={`${styles.typeButton} ${
+            type === "attraction" ? styles.active : ""
+          }`}
+          onClick={() => handleTypeChange("attraction")}
         >
           Attractions
         </button>
       </div>
-      {type === 'event' ? renderEventFilters() : renderAttractionFilters()}
+      {type === "event" ? renderEventFilters() : renderAttractionFilters()}
     </div>
   );
 }

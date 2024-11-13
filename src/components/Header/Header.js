@@ -5,6 +5,7 @@ import { fetchEventsThunk, clearSearchResults } from '../../redux/eventsSlice';
 import SearchBar from '../SearchBar/SearchBar';
 import AuthModal from '../AuthModal/AuthModal';
 import FilterBar from '../FilterBar/FilterBar';
+import { ShoppingCart, User } from 'lucide-react';
 import styles from './Header.module.css';
 
 function Header() {
@@ -34,17 +35,18 @@ function Header() {
         </Link>
         <div className={styles['search-container']}>
           <SearchBar onSearch={handleSearch} />
+          <FilterBar />
         </div>
         <div className={styles.navIcons}>
           <Link to="/cart" className={styles.cart}>
-            <span className={styles.cartIcon}>🛒</span>
+            <ShoppingCart className={styles.cartIcon} />
             {cartItems.length > 0 && (
               <span className={styles.cartBadge}>{cartItems.length}</span>
             )}
           </Link>
           {isAuthenticated ? (
             <Link to="/profile" className={styles.profileIcon}>
-              <span>👤 {user.username}</span>
+              <User className={styles.userIcon} /> {user.username}
             </Link>
           ) : (
             <button 
@@ -56,7 +58,6 @@ function Header() {
           )}
         </div>
       </div>
-      <FilterBar />
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(false)} />
       )}

@@ -1,29 +1,52 @@
 
 .header {
   background: white;
-  padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
+  padding: 1rem 2rem;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 2rem;
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   text-decoration: none;
-  color: #026cdf;
+  color: var(--primary-color);
 }
 
 .search-container {
   flex: 1;
   max-width: 600px;
+}
+
+.navIcons {
+  display: flex;
+  gap: 2rem;
+}
+
+.cartIcon {
+  color: var(--primary-color);
+}
+
+.cartBadge {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.profileIcon {
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

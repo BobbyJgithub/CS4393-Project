@@ -1,21 +1,27 @@
 // src/components/EventCard.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { toggleFavorite, getFavorites } from '../../utils/auth';
 import styles from "./EventCard.module.css";
 import { Link } from "react-router-dom";
+import { Heart } from 'lucide-react';
 
 function EventCard({ event }) {
   const { user } = useSelector(state => state.auth);
   const isAttraction = event.type === 'attraction';
   const favorites = user ? (getFavorites(user.id) || []) : [];
-  const isFavorite = favorites.some(fav => fav.id === event.id);
+  const initialFavoriteState = favorites.some(fav => fav.id === event.id);
+  const [isFavorite, setIsFavorite] = useState(initialFavoriteState);
+
+  useEffect(() => {
+    setIsFavorite(initialFavoriteState);
+  }, [initialFavoriteState]);
 
   const handleFavorite = (e) => {
     e.preventDefault();
     if (!user) return;
     toggleFavorite(user.id, event);
-    window.dispatchEvent(new Event('storage'));
+    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -25,7 +31,7 @@ function EventCard({ event }) {
           onClick={handleFavorite}
           className={`${styles.heartButton} ${isFavorite ? styles.favorite : ''}`}
         >
-          ❤️
+          <Heart fill={isFavorite ? 'red' : 'none'} color={isFavorite ? 'red' : 'black'}/>
         </button>
       )}
       <h3>{event.name}</h3>

@@ -49,7 +49,7 @@ function Home() {
     <>
       {events.filter(item => item.type === 'event').length > 0 && (
         <div className={styles["section"]}>
-          <h2>Search Results - Events</h2>
+          <h2>Search Results</h2>
           <div className={styles["events-container"]}>
             {events.filter(item => item.type === 'event').map((event) => (
               <EventCard key={event.id} event={event} />
@@ -60,7 +60,7 @@ function Home() {
 
       {events.filter(item => item.type === 'attraction').length > 0 && (
         <div className={styles["section"]}>
-          <h2>Search Results - Attractions</h2>
+          <h2>Search Results</h2>
           <div className={styles["events-container"]}>
             {events.filter(item => item.type === 'attraction').map((attraction) => (
               <EventCard key={attraction.id} event={attraction} />

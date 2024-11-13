@@ -17,22 +17,30 @@
 
 .event-card h3 {
   font-size: 1.2em;
-  margin-bottom: 8px;
+  margin: 0.5rem 0;
+  padding: 0;
+  color: var(--main-text-color);
+}
+
+.event-card h4 {
+  font-size: 1em;
+  margin: 0.5rem 0;
+  color: var(--secondary-text-color);
 }
 
 .event-card p {
   font-size: 0.9em;
-  color: #555;
+  color: var(--secondary-text-color);
 }
 
 .event-card a {
   text-decoration: none;
-  color: #0073e6;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
 .event-card a:hover {
-  color: #005bb5;
+  color: var(--primary-color);
 }
 
 .image {
@@ -43,25 +51,26 @@
 }
 
 .heartButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: none;
   border: none;
-  font-size: 24px;
   cursor: pointer;
-  z-index: 2;
-  padding: 8px;
-  transition: transform 0.2s ease;
-  filter: grayscale(100%);
-  opacity: 0.7;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .heartButton:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
-.heartButton.favorite {
-  filter: none;
-  opacity: 1;
+.heartButton .lucide-heart {
+  width: 24px;
+  height: 24px;
+}
+
+.heartButton.favorite .lucide-heart {
+  fill: red;
+  color:red;
 }
