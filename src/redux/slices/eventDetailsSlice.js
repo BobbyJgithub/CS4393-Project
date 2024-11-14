@@ -32,9 +32,9 @@ const eventDetailsSlice = createSlice({
         state.isLoading = false;
         state.event = action.payload;
       })
-      .addCase(fetchEventDetailsThunk.rejected, (state) => {
+      .addCase(fetchEventDetailsThunk.rejected, (state, action) => {
         state.isLoading = false;
-        state.hasError = true;
+        state.hasError = action.payload || true;
       });
   },
 });

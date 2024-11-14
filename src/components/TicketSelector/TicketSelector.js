@@ -4,6 +4,11 @@ import { addToCart } from '../../redux/slices/cartSlice';
 import { generateMockTickets } from '../../assets/mockData/mockTicketData';
 import styles from './TicketSelector.module.css';
 import { isVerifiedFan } from '../../utils/auth';
+import SectionSelect from './SectionSelect';
+import TypeSelect from './TypeSelect';
+import QuantitySelect from './QuantitySelect';
+import Perks from './Perks';
+import Total from './Total';
 
 function TicketSelector({ event }) {
   const dispatch = useDispatch();
@@ -46,65 +51,35 @@ function TicketSelector({ event }) {
       <h3>Select Tickets</h3>
       
       <div className={styles.selectorGrid}>
-        <div className={styles.sectionSelect}>
-          <label>Section:</label>
-          <select
-            value={selectedSection}
-            onChange={(e) => setSelectedSection(e.target.value)}
-          >
-            <option value="">Select a section</option>
-            {ticketData.map(section => (
-              <option key={section.sectionId} value={section.sectionId}>
-                {section.sectionName} ({section.availableTickets} available)
-              </option>
-            ))}
-          </select>
-        </div>
+        <SectionSelect 
+          ticketData={ticketData} 
+          selectedSection={selectedSection} 
+          setSelectedSection={setSelectedSection} 
+        />
 
         {selectedSection && (
-          <div className={styles.typeSelect}>
-            <label>Ticket Type:</label>
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-            >
-              <option value="">Select ticket type</option>
-              {selectedSectionData?.types.map(type => (
-                <option key={type.typeId} value={type.typeId}>
-                  {type.name} - ${type.price} ({type.available} available)
-                </option>
-              ))}
-            </select>
-          </div>
+          <TypeSelect 
+            selectedSectionData={selectedSectionData} 
+            selectedType={selectedType} 
+            setSelectedType={setSelectedType} 
+          />
         )}
 
         {selectedType && (
           <>
-            <div className={styles.quantitySelect}>
-              <label>Quantity:</label>
-              <select
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-              >
-                {[...Array(Math.min(8, selectedTypeData.available))].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>{i + 1}</option>
-                ))}
-              </select>
-            </div>
+            <QuantitySelect 
+              selectedTypeData={selectedTypeData} 
+              quantity={quantity} 
+              setQuantity={setQuantity} 
+            />
 
-            <div className={styles.perks}>
-              <h4>Included Perks:</h4>
-              <ul>
-                {selectedTypeData.perks.map((perk, index) => (
-                  <li key={index}>{perk}</li>
-                ))}
-              </ul>
-            </div>
+            <Perks perks={selectedTypeData.perks} />
 
-            <div className={styles.total}>
-              <p>Total: ${selectedTypeData.price * quantity}</p>
-              <button onClick={handleAddToCart}>Add to Cart</button>
-            </div>
+            <Total 
+              price={selectedTypeData.price} 
+              quantity={quantity} 
+              handleAddToCart={handleAddToCart} 
+            />
           </>
         )}
       </div>

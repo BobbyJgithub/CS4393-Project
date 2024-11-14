@@ -1,9 +1,9 @@
 .events-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 20px;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px;
+}
 
 .section {
   margin: 2rem 0;

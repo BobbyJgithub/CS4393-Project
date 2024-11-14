@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEventsThunk, clearSearchResults } from '../../redux/slices/eventsSlice';
-import SearchBar from '../SearchBar/SearchBar';
 import AuthModal from '../AuthModal/AuthModal';
-import FilterBar from '../FilterBar/FilterBar';
-import { ShoppingCart, User } from 'lucide-react';
+import Logo from './Logo';
+import SearchContainer from './SearchContainer';
+import NavIcons from './NavIcons';
 import styles from './Header.module.css';
 
 function Header() {
@@ -30,33 +30,14 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link to="/" className={styles.logo} onClick={handleLogoClick}>
-          TIX
-        </Link>
-        <div className={styles['search-container']}>
-          <SearchBar onSearch={handleSearch} />
-          <FilterBar />
-        </div>
-        <div className={styles.navIcons}>
-          <Link to="/cart" className={styles.cart}>
-            <ShoppingCart className={styles.cartIcon} />
-            {cartItems.length > 0 && (
-              <span className={styles.cartBadge}>{cartItems.length}</span>
-            )}
-          </Link>
-          {isAuthenticated ? (
-            <Link to="/profile" className={styles.profileIcon}>
-              <User className={styles.userIcon} /> {user.username}
-            </Link>
-          ) : (
-            <button 
-              className={styles.loginButton}
-              onClick={() => setShowAuthModal(true)}
-            >
-              Login
-            </button>
-          )}
-        </div>
+        <Logo onClick={handleLogoClick} />
+        <SearchContainer onSearch={handleSearch} />
+        <NavIcons 
+          cartItems={cartItems} 
+          isAuthenticated={isAuthenticated} 
+          user={user} 
+          onLoginClick={() => setShowAuthModal(true)} 
+        />
       </div>
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(false)} />

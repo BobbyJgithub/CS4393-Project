@@ -49,30 +49,3 @@
   object-fit: cover;
   border-radius: 8px;
 }
-
-.heartButton {
-  background: transparent; /* Ensure background is transparent */
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-
-.heartButton:hover {
-  transform: scale(1.2);
-  background: transparent;
-}
-
-.heartButton .lucide-heart {
-  width: 24px;
-  height: 24px;
-  fill: none; /* Ensure the default fill is none */
-}
-
-.heartButton.favorite .lucide-heart {
-  fill: red; /* Fill the heart icon red when favorite */
-  color: red; /* Ensure the color is red */
-}

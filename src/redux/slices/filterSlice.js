@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  type: '',
+  filters: {}
+};
+
 const filterSlice = createSlice({
   name: 'filters',
-  initialState: {
-    type: '',  // Changed from 'attraction' to empty string
-    filters: {}
-  },
+  initialState,
   reducers: {
     setType: (state, action) => {
       state.type = action.payload;

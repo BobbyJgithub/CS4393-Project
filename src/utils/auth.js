@@ -1,9 +1,12 @@
 const USERS_STORAGE_KEY = 'tix_users';
 
+const getUsers = () => JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+const saveUsers = (users) => localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+
 export const registerUser = (username, password) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   
-  if (users.find(user => user.username === username)) {
+  if (users.some(user => user.username === username)) {
     throw new Error('Username already exists');
   }
 
@@ -16,12 +19,12 @@ export const registerUser = (username, password) => {
   };
 
   users.push(newUser);
-  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  saveUsers(users);
   return { id: newUser.id, username: newUser.username };
 };
 
 export const loginUser = (username, password) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   const user = users.find(u => u.username === username && u.password === password);
   
   if (!user) {
@@ -32,68 +35,61 @@ export const loginUser = (username, password) => {
 };
 
 export const toggleFavorite = (userId, attraction) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   const userIndex = users.findIndex(u => u.id === userId);
   
   if (userIndex === -1) return [];
 
-  // Ensure user has a favorites array
-  if (!users[userIndex].favorites) {
-    users[userIndex].favorites = [];
-  }
+  const user = users[userIndex];
+  user.favorites = user.favorites || [];
 
-  const favoriteIndex = users[userIndex].favorites.findIndex(fav => fav.id === attraction.id);
+  const favoriteIndex = user.favorites.findIndex(fav => fav.id === attraction.id);
 
   if (favoriteIndex === -1) {
-    users[userIndex].favorites.push(attraction);
+    user.favorites.push(attraction);
   } else {
-    users[userIndex].favorites.splice(favoriteIndex, 1);
+    user.favorites.splice(favoriteIndex, 1);
   }
 
-  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-  return users[userIndex].favorites;
+  saveUsers(users);
+  return user.favorites;
 };
 
 export const getFavorites = (userId) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   const user = users.find(u => u.id === userId);
   return user?.favorites || [];
 };
 
 export const submitVerifiedFanRequest = (userId, attraction, reason) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   const userIndex = users.findIndex(u => u.id === userId);
   
   if (userIndex === -1) return false;
 
-  // Initialize verifiedFans array if it doesn't exist
-  if (!users[userIndex].verifiedFans) {
-    users[userIndex].verifiedFans = [];
-  }
+  const user = users[userIndex];
+  user.verifiedFans = user.verifiedFans || [];
 
-  // Check if already a verified fan
-  const isAlreadyVerified = users[userIndex].verifiedFans.some(fan => fan.id === attraction.id);
-  if (isAlreadyVerified) return false;
+  if (user.verifiedFans.some(fan => fan.id === attraction.id)) return false;
 
-  // Add to verified fans
-  users[userIndex].verifiedFans.push({
+  user.verifiedFans.push({
     ...attraction,
     verifiedAt: new Date().toISOString(),
     reason
   });
 
-  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  saveUsers(users);
   return true;
 };
 
 export const getVerifiedFans = (userId) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   const user = users.find(u => u.id === userId);
   return user?.verifiedFans || [];
 };
 
 export const isVerifiedFan = (userId, attractionId) => {
-  const users = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
+  const users = getUsers();
   const user = users.find(u => u.id === userId);
   return user?.verifiedFans?.some(fan => fan.id === attractionId) || false;
 };

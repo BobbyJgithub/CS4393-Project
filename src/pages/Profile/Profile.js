@@ -4,7 +4,8 @@ import { logout } from '../../redux/slices/authSlice';
 import { useNavigate, Navigate } from 'react-router-dom';
 import styles from './Profile.module.css';
 import { getFavorites, getVerifiedFans } from '../../utils/auth';
-import EventCard from '../../components/EventCard/EventCard';
+import FavoriteAttractions from '../../components/Profile/FavoriteAttractions';
+import VerifiedFans from '../../components/Profile/VerifiedFans';
 
 function Profile() {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ function Profile() {
       window.addEventListener('storage', updateUserData);
       return () => window.removeEventListener('storage', updateUserData);
     }
-  }, [user, verifiedFans, favorites]);
+  }, [user, favorites]);
 
   if (!user) return <Navigate to="/" />;
 
@@ -42,30 +43,8 @@ function Profile() {
         <p><strong>Username:</strong> {user.username}</p>
         <p><strong>Member since:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
       </div>
-
-<div className={`${styles.section} ${styles.favorites}`}>
-  <h2>Favorite Attractions</h2>
-  <div className={styles.favoriteGrid}>
-    {favorites.map(attraction => (
-      <EventCard key={attraction.id} event={attraction} />
-    ))}
-  </div>
-</div>
-
-<div className={`${styles.section} ${styles.verifiedFans}`}>
-  <h2>Verified Fan Of</h2>
-  <div className={styles.favoriteGrid}>
-    {verifiedFans.map(attraction => (
-      <div key={attraction.id} className={styles.verifiedFanCard}>
-        <EventCard event={attraction} />
-        <p className={styles.verificationDate}>
-          Verified since: {new Date(attraction.verifiedAt).toLocaleDateString()}
-        </p>
-      </div>
-    ))}
-  </div>
-</div>
-
+      <FavoriteAttractions favorites={favorites} />
+      <VerifiedFans verifiedFans={verifiedFans} />
       <button onClick={handleLogout} className={styles.logoutButton}>
         Logout
       </button>

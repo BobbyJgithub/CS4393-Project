@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEventsThunk } from '../../redux/slices/eventsSlice';
+import { fetchEventsThunk, clearSearchResults } from '../../redux/slices/eventsSlice';
 import EventCard from '../../components/EventCard/EventCard';
-import styles from './Home.module.css';
-import { fetchPopularEvents, fetchPopularAttractions } from '../../utils/api';
 import SearchInfo from '../../components/SearchInfo/SearchInfo';
-import { clearSearchResults } from '../../redux/slices/eventsSlice';
+import { fetchPopularEvents, fetchPopularAttractions } from '../../utils/api';
+import styles from './Home.module.css';
 
-function Home() {
+const Section = ({ title, items, type }) => (
+  <div className={styles.section}>
+    <h2>{title}</h2>
+    <div className={styles["events-container"]}>
+      {items.map(item => (
+        <EventCard key={item.id} event={item} />
+      ))}
+    </div>
+  </div>
+);
+
+const Home = () => {
   const dispatch = useDispatch();
-  const { events, isLoading: isSearchLoading, hasError } = useSelector((state) => state.events);
+  const { events, isLoading: isSearchLoading, hasError } = useSelector(state => state.events);
   const [popularEvents, setPopularEvents] = useState([]);
   const [popularAttractions, setPopularAttractions] = useState([]);
   const [isLoadingPopular, setIsLoadingPopular] = useState(false);
@@ -31,11 +41,8 @@ function Home() {
       setError(null); // Reset error on success
     } catch (err) {
       setError(err.message);
-
       if (retryCount < maxRetries) {
-        setTimeout(() => {
-          setRetryCount(retryCount + 1);
-        }, retryDelay);
+        setTimeout(() => setRetryCount(retryCount + 1), retryDelay);
       }
     } finally {
       setIsLoadingPopular(false);
@@ -44,74 +51,42 @@ function Home() {
 
   useEffect(() => {
     fetchPopularContent();
-  }, [retryCount]); // Retry when retryCount changes
+  }, [retryCount]);
 
   useEffect(() => {
     if (!events.length && hasError && retryCount < maxRetries) {
-      setTimeout(() => {
-        setRetryCount(retryCount + 1);
-      }, retryDelay);
+      setTimeout(() => setRetryCount(retryCount + 1), retryDelay);
     }
   }, [hasError, retryCount, events.length]);
 
   const searchResults = events.length > 0 && (
-      <>
-        {events.filter(item => item.type === 'event' || !item.type).length > 0 && (
-            <div className={styles["section"]}>
-              <h2>Events</h2>
-              <div className={styles["events-container"]}>
-                {events.filter(item => item.type === 'event' || !item.type).map((event) => (
-                    <EventCard key={event.id} event={event} />
-                ))}
-              </div>
-            </div>
-        )}
-
-        {events.filter(item => item.type === 'attraction').length > 0 && (
-            <div className={styles["section"]}>
-              <h2>Attractions</h2>
-              <div className={styles["events-container"]}>
-                {events.filter(item => item.type === 'attraction').map((attraction) => (
-                    <EventCard key={attraction.id} event={attraction} />
-                ))}
-              </div>
-            </div>
-        )}
-      </>
+    <>
+      {events.filter(item => item.type === 'event' || !item.type).length > 0 && (
+        <Section title="Events" items={events.filter(item => item.type === 'event' || !item.type)} />
+      )}
+      {events.filter(item => item.type === 'attraction').length > 0 && (
+        <Section title="Attractions" items={events.filter(item => item.type === 'attraction')} />
+      )}
+    </>
   );
 
   const popularContent = !isLoadingPopular && (
-      <>
-        <div className={styles["section"]}>
-          <h2>Popular Events</h2>
-          <div className={styles["events-container"]}>
-            {popularEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-            ))}
-          </div>
-        </div>
-
-        <div className={styles["section"]}>
-          <h2>Popular Attractions</h2>
-          <div className={styles["events-container"]}>
-            {popularAttractions.map((attraction) => (
-                <EventCard key={attraction.id} event={attraction} />
-            ))}
-          </div>
-        </div>
-      </>
+    <>
+      <Section title="Popular Events" items={popularEvents} />
+      <Section title="Popular Attractions" items={popularAttractions} />
+    </>
   );
 
   if (isSearchLoading && isLoadingPopular) return <p>Loading...</p>;
   if (hasError || error) return <p>Error: {hasError || error} (Retrying... {retryCount}/{maxRetries})</p>;
 
   return (
-      <div>
-        <SearchInfo />
-        {searchResults}
-        {!events.length && popularContent}
-      </div>
+    <div>
+      <SearchInfo />
+      {searchResults}
+      {!events.length && popularContent}
+    </div>
   );
-}
+};
 
 export default Home;
