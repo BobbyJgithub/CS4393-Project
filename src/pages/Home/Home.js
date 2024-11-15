@@ -27,7 +27,7 @@ const Home = () => {
   const [retryCount, setRetryCount] = useState(0);
 
   const maxRetries = 5;
-  const retryDelay = 2000; // 2 seconds
+  const retryDelay = 0; // 2 seconds
 
   const fetchPopularContent = async () => {
     try {
