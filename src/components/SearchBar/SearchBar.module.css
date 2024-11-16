@@ -9,7 +9,7 @@
   
   .search-bar__input {
     padding: 8px;
-    width: 250px;
+    width: 50vw;
     font-size: 1em;
     border: 1px solid var(--secondary-color);
     border-radius: 4px;
