@@ -27,6 +27,18 @@
   gap: 2rem;
 }
 
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 @media (max-width: 768px) {
   .contentRow {
     grid-template-columns: 1fr;
