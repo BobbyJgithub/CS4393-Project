@@ -1,8 +1,3 @@
-/**
- * Find the highest resolution image from Ticketmaster image array
- * @param {Array} images - Array of image objects from Ticketmaster API
- * @returns {string} URL of the highest resolution image or undefined
- */
 export const getHighestResImage = (images) => {
   if (!images || !images.length) return undefined;
   
@@ -14,11 +9,6 @@ export const getHighestResImage = (images) => {
   return images[0].url;
 };
 
-/**
- * Find a medium resolution image suitable for cards and listings
- * @param {Array} images - Array of image objects from Ticketmaster API
- * @returns {string} URL of medium resolution image or falls back to first image
- */
 export const getMediumResImage = (images) => {
   if (!images || !images.length) return undefined;
 
