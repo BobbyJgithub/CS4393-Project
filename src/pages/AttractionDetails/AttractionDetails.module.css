@@ -285,3 +285,80 @@
   border-bottom: 2px solid #2196f3;
   color: #2196f3;
 }
+
+.reviews-info {
+  padding: 1rem 0;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.average-rating {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star, .star-filled {
+  font-size: 1.2rem;
+}
+
+.star {
+  color: #ddd;
+}
+
+.star-filled {
+  color: #ffd700;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.review-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.review-header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.verified-badge {
+  background-color: #4caf50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.review-date {
+  color: #666;
+  font-size: 0.9rem;
+}

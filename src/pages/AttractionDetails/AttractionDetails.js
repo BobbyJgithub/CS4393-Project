@@ -9,6 +9,7 @@ import MainInfo from '../../components/AttractionDetails/MainInfo';
 import SideInfo from '../../components/AttractionDetails/SideInfo';
 import Modal from '../../components/AttractionDetails/Modal';
 import MerchInfo from '../../components/AttractionDetails/MerchInfo';
+import ReviewsInfo from '../../components/AttractionDetails/ReviewsInfo';
 
 function AttractionDetails() {
   const { id } = useParams();
@@ -94,8 +95,14 @@ function AttractionDetails() {
             >
               Merchandise
             </button>
+            <button 
+              className={`${styles["tab"]} ${activeTab === 'reviews' ? styles["active"] : ''}`}
+              onClick={() => setActiveTab('reviews')}
+            >
+              Reviews
+            </button>
           </div>
-          {activeTab === 'info' ? (
+          {activeTab === 'info' && (
             <MainInfo 
               attraction={attraction} 
               events={events} 
@@ -103,9 +110,9 @@ function AttractionDetails() {
               hasEventsError={hasEventsError} 
               user={user}
             />
-          ) : (
-            <MerchInfo />
           )}
+          {activeTab === 'merch' && <MerchInfo />}
+          {activeTab === 'reviews' && <ReviewsInfo />}
         </div>
         <SideInfo 
           attraction={attraction} 
