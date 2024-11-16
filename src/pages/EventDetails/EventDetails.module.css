@@ -177,6 +177,24 @@
   border-radius: 0 0 8px 8px;
 }
 
+.venue-view-button {
+  display: inline-block;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #026cdf;
+  color: white !important;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.venue-view-button:hover {
+  background-color: #0256b0;
+  text-decoration: none;
+}
+
 @media (max-width: 768px) {
   .content-grid {
     grid-template-columns: 1fr;
