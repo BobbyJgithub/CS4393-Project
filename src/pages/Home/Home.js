@@ -6,6 +6,7 @@ import SearchInfo from '../../components/SearchInfo/SearchInfo';
 import { fetchPopularEvents, fetchPopularAttractions } from '../../utils/api';
 import styles from './Home.module.css';
 import Featured from '../../components/Featured/Featured';
+import SearchSection from '../../components/SearchSection/SearchSection';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -52,10 +53,10 @@ const Home = () => {
   const searchResults = events.length > 0 && (
     <>
       {events.filter(item => item.type === 'event' || !item.type).length > 0 && (
-        <HomeSection title="Events" items={events.filter(item => item.type === 'event' || !item.type)} />
+        <SearchSection title="Events" items={events.filter(item => item.type === 'event' || !item.type)} />
       )}
       {events.filter(item => item.type === 'attraction').length > 0 && (
-        <HomeSection title="Attractions" items={events.filter(item => item.type === 'attraction')} />
+        <SearchSection title="Attractions" items={events.filter(item => item.type === 'attraction')} />
       )}
     </>
   );
@@ -72,7 +73,7 @@ const Home = () => {
 
   return (
     <div>
-      <Featured />
+      {!events.length && <Featured />}
       <SearchInfo />
       {searchResults}
       {!events.length && popularContent}
