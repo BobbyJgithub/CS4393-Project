@@ -8,6 +8,7 @@ import HeroSection from '../../components/AttractionDetails/HeroSection';
 import MainInfo from '../../components/AttractionDetails/MainInfo';
 import SideInfo from '../../components/AttractionDetails/SideInfo';
 import Modal from '../../components/AttractionDetails/Modal';
+import MerchInfo from '../../components/AttractionDetails/MerchInfo';
 
 function AttractionDetails() {
   const { id } = useParams();
@@ -21,6 +22,7 @@ function AttractionDetails() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fanRequest, setFanRequest] = useState('');
+  const [activeTab, setActiveTab] = useState('info'); // Add this state
 
   useEffect(() => {
     dispatch(fetchAttractionDetailsThunk(id));
@@ -78,17 +80,37 @@ function AttractionDetails() {
         isFavorite={isFavorite} 
       />
       <div className={styles["content-grid"]}>
-        <MainInfo 
-          attraction={attraction} 
-          events={events} 
-          isLoadingEvents={isLoadingEvents} 
-          hasEventsError={hasEventsError} 
-          user={user}
-        />
+        <div>
+          <div className={styles["tabs"]}>
+            <button 
+              className={`${styles["tab"]} ${activeTab === 'info' ? styles["active"] : ''}`}
+              onClick={() => setActiveTab('info')}
+            >
+              Information
+            </button>
+            <button 
+              className={`${styles["tab"]} ${activeTab === 'merch' ? styles["active"] : ''}`}
+              onClick={() => setActiveTab('merch')}
+            >
+              Merchandise
+            </button>
+          </div>
+          {activeTab === 'info' ? (
+            <MainInfo 
+              attraction={attraction} 
+              events={events} 
+              isLoadingEvents={isLoadingEvents} 
+              hasEventsError={hasEventsError} 
+              user={user}
+            />
+          ) : (
+            <MerchInfo />
+          )}
+        </div>
         <SideInfo 
-        attraction={attraction} 
-        user={user}
-        handleOpenModal={handleOpenModal}
+          attraction={attraction} 
+          user={user}
+          handleOpenModal={handleOpenModal}
         />
       </div>
       {isModalOpen && (
