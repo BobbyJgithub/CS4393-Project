@@ -5,6 +5,7 @@ import EventCard from '../../components/EventCard/EventCard';
 import SearchInfo from '../../components/SearchInfo/SearchInfo';
 import { fetchPopularEvents, fetchPopularAttractions } from '../../utils/api';
 import styles from './Home.module.css';
+import Featured from '../../components/Featured/Featured';
 
 const Section = ({ title, items, type }) => (
   <div className={styles.section}>
@@ -82,6 +83,7 @@ const Home = () => {
 
   return (
     <div>
+      <Featured />
       <SearchInfo />
       {searchResults}
       {!events.length && popularContent}

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styles from "./EventCard.module.css";
 import { Link } from "react-router-dom";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import { getMediumResImage } from "../../utils/imageHelpers";
 
 function EventCard({ event }) {
   const { user } = useSelector(state => state.auth);
@@ -17,7 +18,7 @@ function EventCard({ event }) {
         <h4>{event._embedded.attractions[0].name}</h4>
       )}
       <img
-        src={event.images?.[0]?.url}
+        src={getMediumResImage(event.images)}
         alt={`${event.name} image`}
         className={styles["image"]}
       />
