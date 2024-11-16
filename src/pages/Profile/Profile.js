@@ -32,22 +32,26 @@ function Profile() {
       window.addEventListener('storage', updateUserData);
       return () => window.removeEventListener('storage', updateUserData);
     }
-  }, [user, favorites]);
+  }, [user]);
 
   if (!user) return <Navigate to="/" />;
 
   return (
     <div className={styles.profile}>
-      <h1>Profile</h1>
-      <div className={styles.section}>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Member since:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+      <div className={styles.profileGrid}>
+        <div className={styles.section}>
+          <h1>Profile</h1>
+          <p><strong>Username:</strong> {user.username}</p>
+          <button onClick={handleLogout} className={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
+        
+        <div className={styles.contentRow}>
+          <FavoriteAttractions favorites={favorites} />
+          <VerifiedFans verifiedFans={verifiedFans} />
+        </div>
       </div>
-      <FavoriteAttractions favorites={favorites} />
-      <VerifiedFans verifiedFans={verifiedFans} />
-      <button onClick={handleLogout} className={styles.logoutButton}>
-        Logout
-      </button>
     </div>
   );
 }
