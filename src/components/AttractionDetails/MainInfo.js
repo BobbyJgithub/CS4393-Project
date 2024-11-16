@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../../pages/AttractionDetails/AttractionDetails.module.css";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import { getMediumResImage } from "../../utils/imageHelpers";
 
 const MainInfo = ({
   attraction,
@@ -34,13 +35,7 @@ const MainInfo = ({
             to={`/event/${event.id}`}
             key={event.id}
             className={styles["event-card"]}>
-            <img
-              src={
-                event.images?.find((img) => img.ratio === "16_9")?.url ||
-                event.images?.[0]?.url
-              }
-              alt={event.name}
-            />
+            <img src={getMediumResImage(event.images)} alt={event.name} />
             <h4>{event.name}</h4>
             <p>{new Date(event.dates.start.dateTime).toLocaleDateString()}</p>
             {event._embedded?.venues?.[0] && (
