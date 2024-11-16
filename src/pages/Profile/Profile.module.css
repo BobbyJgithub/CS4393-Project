@@ -7,11 +7,30 @@
 }
 
 .profile {
-  max-width: 650px;
   margin: 0 auto;
   padding: 2.5rem;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.contentRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .contentRow {
+    grid-template-columns: 1fr;
+  }
 }
 
 .info {
