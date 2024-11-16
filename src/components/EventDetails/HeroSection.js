@@ -15,6 +15,7 @@ const HeroSection = ({ event }) => (
       {event.dates?.start && (
         <h2>{new Date(event.dates.start.dateTime).toLocaleString()}</h2>
       )}
+      <h2>{event._embedded.venues[0].name}</h2>
     </div>
   </div>
 );
