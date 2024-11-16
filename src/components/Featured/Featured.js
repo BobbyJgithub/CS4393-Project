@@ -9,6 +9,11 @@ import { getHighestResImage } from '../../utils/imageHelpers';
 const Featured = () => {
   const [featuredAttractions, setFeaturedAttractions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
+
+  const maxRetries = 5;
+  const retryDelay = 0; // 2 seconds
 
   // IDs of featured attractions you want to display
   const featuredIds = [
@@ -20,18 +25,24 @@ const Featured = () => {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
+        setIsLoading(true);
         const promises = featuredIds.map(id => fetchAttractionById(id));
         const results = await Promise.all(promises);
         setFeaturedAttractions(results);
+        setError(null);
       } catch (error) {
         console.error('Error fetching featured attractions:', error);
+        setError(error.message);
+        if (retryCount < maxRetries) {
+          setTimeout(() => setRetryCount(retryCount + 1), retryDelay);
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchFeatured();
-  }, []);
+  }, [retryCount]);
 
   const responsive = {
     superLargeDesktop: {
@@ -53,6 +64,7 @@ const Featured = () => {
   };
 
   if (isLoading) return <div>Loading featured attractions...</div>;
+  if (error) return <div>Error: {error} (Retrying... {retryCount}/{maxRetries})</div>;
 
   return (
     <div className={styles.featured}>

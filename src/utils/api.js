@@ -94,7 +94,7 @@ export const fetchEventsByAttractionId = async (id) => {
 
 export const fetchPopularEvents = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/events.json?sort=relevance,desc&size=10&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`);
+    const response = await fetch(`${API_BASE_URL}/events.json?sort=relevance,desc&size=20&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`);
     const data = await handleResponse(response);
     return data._embedded?.events || [];
   } catch (error) {
@@ -105,7 +105,7 @@ export const fetchPopularEvents = async () => {
 
 export const fetchPopularAttractions = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attractions.json?sort=relevance,desc&size=10&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`);
+    const response = await fetch(`${API_BASE_URL}/attractions.json?sort=relevance,desc&size=20&locale=en-us&apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`);
     const data = await handleResponse(response);
     return data._embedded?.attractions || [];
   } catch (error) {
