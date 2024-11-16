@@ -1,11 +1,12 @@
 
 import React from 'react';
 import styles from '../../pages/AttractionDetails/AttractionDetails.module.css';
+import { getHighestResImage } from '../../utils/imageHelpers';
 
 const HeroSection = ({ attraction, user, handleFavorite, handleOpenModal, isFavorite }) => (
   <div className={styles["hero-section"]}>
     <img 
-      src={attraction.images?.find(img => img.ratio === "16_9")?.url || attraction.images?.[0]?.url} 
+      src={getHighestResImage(attraction.images)} 
       alt={attraction.name} 
       className={styles["hero-image"]}
     />
