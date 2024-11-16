@@ -4,6 +4,85 @@
   border-radius: 8px;
 }
 
+.ticketGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.sectionGroup {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sectionGroup h4 {
+  margin: 0 0 16px 0;
+  color: #1f262d;
+}
+
+.typeGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.ticketOption {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ticketOption:hover {
+  border-color: #026cdf;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.ticketOption.selected {
+  border-color: #026cdf;
+  background-color: #f0f7ff;
+}
+
+.ticketInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.typeName {
+  font-weight: 600;
+}
+
+.price {
+  color: #026cdf;
+  font-weight: 600;
+}
+
+.perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.perk {
+  font-size: 0.875rem;
+  padding: 4px 8px;
+  background: #f0f7ff;
+  border-radius: 4px;
+  color: #026cdf;
+}
+
+.selectedTicketActions {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd;
+}
+
 .selectorGrid {
   display: grid;
   gap: 20px;
@@ -22,12 +101,6 @@ select {
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ddd;
-}
-
-.perks {
-  background: #fff;
-  padding: 15px;
-  border-radius: 4px;
 }
 
 .perks ul {
@@ -67,4 +140,116 @@ button {
 
 button:hover {
   background: #2c3540;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: auto;
+}
+
+.filterGroup label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1f262d;
+}
+
+.filterGroup select,
+.filterGroup input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.filterGroup select {
+  min-width: 150px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 1em;
+  padding-right: 32px;
+}
+
+.priceInputs {
+  display: flex;
+  gap: 8px;
+}
+
+.priceInputs input {
+  width: 100px;
+}
+
+.noResults {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  color: #666;
+}
+
+.filterToggle {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.filterButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #1f262d;
+}
+
+.filterButton:hover {
+  background: #f8f8f8;
+}
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.filtersDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.filtersDropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }

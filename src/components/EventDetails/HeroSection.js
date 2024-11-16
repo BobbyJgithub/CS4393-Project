@@ -1,11 +1,12 @@
 
 import React from 'react';
 import styles from '../../pages/EventDetails/EventDetails.module.css';
+import { getHighestResImage } from '../../utils/imageHelpers';
 
 const HeroSection = ({ event }) => (
   <div className={styles["hero-section"]}>
     <img 
-      src={event.images?.find(img => img.ratio === "16_9")?.url || event.images?.[0]?.url} 
+      src={getHighestResImage(event.images)} 
       alt={event.name} 
       className={styles["hero-image"]}
     />
