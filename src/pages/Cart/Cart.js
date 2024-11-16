@@ -7,7 +7,7 @@ import { addPurchasedTicket } from '../../utils/auth';
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { items, total } = useSelector(state => state.cart);
+  const { items, subtotal, tax, fees, total } = useSelector(state => state.cart);
   const { user } = useSelector(state => state.auth);
 
   const handleRemoveItem = (itemId) => {
@@ -40,7 +40,12 @@ const Cart = () => {
         <CartItem key={item.id} item={item} onRemove={handleRemoveItem} />
       ))}
       <div className={styles.cartTotal}>
-        <h3>Total: ${total}</h3>
+        <div className={styles.priceBreakdown}>
+          <p>Subtotal: ${subtotal.toFixed(2)}</p>
+          <p>Tax (8%): ${tax.toFixed(2)}</p>
+          <p>Fees (1%): ${fees.toFixed(2)}</p>
+          <h3>Total: ${total.toFixed(2)}</h3>
+        </div>
         <button onClick={handleCheckout}>Checkout</button>
       </div>
     </div>

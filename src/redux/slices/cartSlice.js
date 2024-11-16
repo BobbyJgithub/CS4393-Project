@@ -2,10 +2,25 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   items: [],
+  subtotal: 0,
+  tax: 0,
+  fees: 0,
   total: 0,
 };
 
-const calculateTotal = (items) => items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+const calculatePrices = (items) => {
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const tax = subtotal * 0.08;
+  const fees = subtotal * 0.01;
+  const total = subtotal + tax + fees;
+  
+  return {
+    subtotal,
+    tax,
+    fees,
+    total
+  };
+};
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -13,15 +28,14 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       state.items.push(action.payload);
-      state.total = calculateTotal(state.items);
+      Object.assign(state, calculatePrices(state.items));
     },
     removeFromCart: (state, action) => {
       state.items = state.items.filter(item => item.id !== action.payload);
-      state.total = calculateTotal(state.items);
+      Object.assign(state, calculatePrices(state.items));
     },
     clearCart: (state) => {
-      state.items = [];
-      state.total = 0;
+      return initialState;
     },
   },
 });
