@@ -93,3 +93,26 @@ export const isVerifiedFan = (userId, attractionId) => {
   const user = users.find(u => u.id === userId);
   return user?.verifiedFans?.some(fan => fan.id === attractionId) || false;
 };
+
+export const addPurchasedTicket = (userId, ticket) => {
+  const users = getUsers();
+  const userIndex = users.findIndex(u => u.id === userId);
+  
+  if (userIndex === -1) return false;
+
+  const user = users[userIndex];
+  user.tickets = user.tickets || [];
+  user.tickets.push({
+    ...ticket,
+    purchasedAt: new Date().toISOString()
+  });
+
+  saveUsers(users);
+  return true;
+};
+
+export const getPurchasedTickets = (userId) => {
+  const users = getUsers();
+  const user = users.find(u => u.id === userId);
+  return user?.tickets || [];
+};

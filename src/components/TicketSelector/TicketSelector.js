@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { generateMockTickets } from '../../assets/mockData/mockTicketData';
 import styles from './TicketSelector.module.css';
@@ -9,14 +10,17 @@ import TypeSelect from './TypeSelect';
 import QuantitySelect from './QuantitySelect';
 import Perks from './Perks';
 import Total from './Total';
+import AuthModal from '../AuthModal/AuthModal';
 
 function TicketSelector({ event }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
   const [ticketData, setTicketData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     const userIsVerifiedFan = user && event._embedded?.attractions?.[0]?.id
@@ -30,6 +34,11 @@ function TicketSelector({ event }) {
   const selectedTypeData = selectedSectionData?.types.find(type => type.typeId === selectedType);
 
   const handleAddToCart = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
     if (!selectedTypeData) return;
 
     const ticket = {
@@ -78,11 +87,16 @@ function TicketSelector({ event }) {
             <Total 
               price={selectedTypeData.price} 
               quantity={quantity} 
-              handleAddToCart={handleAddToCart} 
+              handleAddToCart={handleAddToCart}
+              isLoggedIn={!!user}
             />
           </>
         )}
       </div>
+
+      {showAuthModal && (
+        <AuthModal onClose={() => setShowAuthModal(false)} />
+      )}
     </div>
   );
 }

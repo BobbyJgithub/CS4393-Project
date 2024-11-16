@@ -1,0 +1,25 @@
+.ticketList {
+  display: grid;
+  gap: 1rem;
+}
+
+.ticketCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ticketDetails {
+  margin-top: 1rem;
+}
+
+.ticketDetails p {
+  margin: 0.5rem 0;
+}
+
+.purchaseDate {
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  margin-top: 1rem !important;
+}
