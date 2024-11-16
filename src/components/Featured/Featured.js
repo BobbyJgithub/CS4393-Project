@@ -12,8 +12,8 @@ const Featured = () => {
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
 
-  const maxRetries = 5;
-  const retryDelay = 0; // 2 seconds
+  const maxRetries = 10;
+  const retryDelay = 1; // 2 seconds
 
   // IDs of featured attractions you want to display
   const featuredIds = [

@@ -1,9 +1,15 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import styles from "../../pages/AttractionDetails/AttractionDetails.module.css";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../../pages/AttractionDetails/AttractionDetails.module.css';
-
-const MainInfo = ({ attraction, events, isLoadingEvents, hasEventsError }) => (
+const MainInfo = ({
+  attraction,
+  events,
+  isLoadingEvents,
+  hasEventsError,
+  user,
+}) => (
   <div className={styles["main-info"]}>
     {attraction.description && (
       <section>
@@ -23,14 +29,16 @@ const MainInfo = ({ attraction, events, isLoadingEvents, hasEventsError }) => (
       {hasEventsError && <p>Failed to load events.</p>}
       {events.length === 0 && !isLoadingEvents && <p>No upcoming events.</p>}
       <div className={styles["events-grid"]}>
-        {events.map(event => (
-          <Link 
-            to={`/event/${event.id}`} 
+        {events.map((event) => (
+          <Link
+            to={`/event/${event.id}`}
             key={event.id}
-            className={styles["event-card"]}
-          >
-            <img 
-              src={event.images?.find(img => img.ratio === "16_9")?.url || event.images?.[0]?.url}
+            className={styles["event-card"]}>
+            <img
+              src={
+                event.images?.find((img) => img.ratio === "16_9")?.url ||
+                event.images?.[0]?.url
+              }
               alt={event.name}
             />
             <h4>{event.name}</h4>
@@ -38,9 +46,8 @@ const MainInfo = ({ attraction, events, isLoadingEvents, hasEventsError }) => (
             {event._embedded?.venues?.[0] && (
               <p>
                 {event._embedded.venues[0].city?.name}
-                {event._embedded.venues[0].state?.stateCode && 
-                  `, ${event._embedded.venues[0].state.stateCode}`
-                }
+                {event._embedded.venues[0].state?.stateCode &&
+                  `, ${event._embedded.venues[0].state.stateCode}`}
               </p>
             )}
           </Link>

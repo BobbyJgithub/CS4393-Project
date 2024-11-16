@@ -14,6 +14,10 @@ function AttractionDetails() {
   const dispatch = useDispatch();
   const { attraction, events, isLoading, hasError, isLoadingEvents, hasEventsError } = useSelector((state) => state.attractionDetails);
   const { user } = useSelector(state => state.auth);
+  
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 10;
+  const retryDelay = 1000; // 1 second
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fanRequest, setFanRequest] = useState('');
@@ -21,7 +25,13 @@ function AttractionDetails() {
   useEffect(() => {
     dispatch(fetchAttractionDetailsThunk(id));
     dispatch(fetchAttractionEventsThunk(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, retryCount]);
+
+  useEffect(() => {
+    if (!attraction && hasError && retryCount < maxRetries) {
+      setTimeout(() => setRetryCount(retryCount + 1), retryDelay);
+    }
+  }, [hasError, retryCount, attraction]);
 
   const favorites = user ? (getFavorites(user.id) || []) : [];
   const isFavorite = favorites.some(fav => fav.id === attraction?.id);
@@ -55,7 +65,7 @@ function AttractionDetails() {
   };
 
   if (isLoading) return <p>Loading attraction details...</p>;
-  if (hasError) return <p>Failed to load attraction details.</p>;
+  if (hasError) return <p>Error: {hasError} (Retrying... {retryCount}/{maxRetries})</p>;
   if (!attraction) return null;
 
   return (
@@ -73,8 +83,13 @@ function AttractionDetails() {
           events={events} 
           isLoadingEvents={isLoadingEvents} 
           hasEventsError={hasEventsError} 
+          user={user}
         />
-        <SideInfo attraction={attraction} />
+        <SideInfo 
+        attraction={attraction} 
+        user={user}
+        handleOpenModal={handleOpenModal}
+        />
       </div>
       {isModalOpen && (
         <Modal 

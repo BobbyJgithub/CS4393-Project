@@ -151,7 +151,7 @@
 }
 
 .verifiedFanButton:hover {
-  background-color: var(--primary-color-dark);
+  background-color: blue;
 }
 
 .modalOverlay {
