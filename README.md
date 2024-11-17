@@ -1,4 +1,4 @@
-# CS4393-Project
+# CS4393-Project [Visit Site](https://tixapp.netlify.app/)
 
 # TIX - Modern Event Ticketing Platform
 
@@ -44,7 +44,7 @@ TIX is an event ticketing platform , offering a seamless experience for discover
 - Venue Information: Detailed information about the venue, including location, accessibility, and amenities.
 
 ## 🌐 Live Demo
-Check out the live demo of the TIX platform at tixapp.netlify.app
+Check out the live demo of the TIX platform at [tixapp.netlify.app](https://tixapp.netlify.app/)
 
 ## 🔮 Future Development
 <input disabled="" type="checkbox"> Emails for Ticket Purchases: Send confirmation emails for ticket purchases.
