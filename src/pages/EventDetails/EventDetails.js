@@ -16,10 +16,14 @@ function EventDetails() {
   const { event, isLoading, hasError } = useSelector((state) => state.eventDetails);
   const { venue, isLoading: isLoadingVenue } = useSelector((state) => state.venueDetails);
   const [expandedSections, setExpandedSections] = useState({});
+  const [retryCount, setRetryCount] = useState(0);
+
+  const maxRetries = 10;
+  const retryDelay = 1; // 1 second
 
   useEffect(() => {
     dispatch(fetchEventDetailsThunk(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, retryCount]);
 
   useEffect(() => {
     if (event?._embedded?.venues?.[0]?.id) {
@@ -34,8 +38,14 @@ function EventDetails() {
     }));
   };
 
-  if (isLoading) return <p>Loading event details...</p>;
-  if (hasError) return <p>Failed to load event details.</p>;
+  useEffect(() => {
+    if (hasError && retryCount < maxRetries) {
+      setTimeout(() => setRetryCount(retryCount + 1), retryDelay);
+    }
+  }, [hasError, retryCount]);
+
+  if (isLoading || isLoadingVenue) return <p>Loading event details...</p>;
+  if (hasError) return <p>Failed to load event details. (Retrying... {retryCount}/{maxRetries})</p>;
   if (!event) return null;
 
   return (

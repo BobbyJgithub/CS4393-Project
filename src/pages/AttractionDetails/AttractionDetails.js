@@ -22,7 +22,7 @@ function AttractionDetails() {
   
   const [retryCount, setRetryCount] = useState(0);
   const maxRetries = 10;
-  const retryDelay = 1000; // 1 second
+  const retryDelay = 1;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fanRequest, setFanRequest] = useState('');
