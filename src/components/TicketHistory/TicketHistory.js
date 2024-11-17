@@ -4,7 +4,9 @@ import ProfileSection from '../Profile/ProfileSection';
 
 const TicketHistory = ({ tickets }) => {
   const [showAll, setShowAll] = useState(false);
-  const visibleTickets = showAll ? tickets : tickets.slice(0, 2);
+  // Filter out any non-ticket items that might have gotten in
+  const ticketItems = tickets.filter(item => item.type !== 'merchandise');
+  const visibleTickets = showAll ? ticketItems : ticketItems.slice(0, 2);
 
   return (
     <ProfileSection title="Purchased Tickets">

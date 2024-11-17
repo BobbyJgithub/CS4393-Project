@@ -9,17 +9,26 @@ const initialState = {
 };
 
 const calculatePrices = (items) => {
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = items.reduce((sum, item) => {
+    // Handle both ticket and merch items
+    if (item.type === 'merchandise') {
+      return sum + item.price;
+    }
+    return sum + item.price * item.quantity;
+  }, 0);
+  
   const tax = subtotal * 0.08;
-  const fees = subtotal * 0.01;
+  const fees = items.reduce((sum, item) => {
+    // Only apply fees to tickets, not merchandise
+    if (item.type !== 'merchandise') {
+      return sum + item.price * item.quantity * 0.01;
+    }
+    return sum;
+  }, 0);
+  
   const total = subtotal + tax + fees;
   
-  return {
-    subtotal,
-    tax,
-    fees,
-    total
-  };
+  return { subtotal, tax, fees, total };
 };
 
 const cartSlice = createSlice({

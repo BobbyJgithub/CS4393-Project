@@ -111,7 +111,7 @@ function AttractionDetails() {
               user={user}
             />
           )}
-          {activeTab === 'merch' && <MerchInfo />}
+          {activeTab === 'merch' && <MerchInfo attractionId={attraction.id} />}
           {activeTab === 'reviews' && <ReviewsInfo />}
         </div>
         <SideInfo 

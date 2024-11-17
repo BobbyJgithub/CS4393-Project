@@ -231,6 +231,7 @@
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
+  position: relative;
 }
 
 .merch-card img {
@@ -263,6 +264,29 @@
 
 .buy-button:hover {
   background-color: #1976d2;
+}
+
+.buy-button.in-cart {
+  background-color: #90CAF9;
+  cursor: default;
+}
+
+.buy-button.in-cart:hover {
+  background-color: #90CAF9;
+}
+
+.merch-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.in-cart {
+  background-color: #4CAF50;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
 }
 
 .tabs {

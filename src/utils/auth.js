@@ -116,3 +116,27 @@ export const getPurchasedTickets = (userId) => {
   const user = users.find(u => u.id === userId);
   return user?.tickets || [];
 };
+
+export const addPurchasedMerchandise = (userId, merchItem) => {
+  const users = getUsers();
+  const user = users.find(u => u.id === userId);
+  if (!user) return false;
+
+  if (!user.merchandise) {
+    user.merchandise = [];
+  }
+  
+  user.merchandise.push({
+    ...merchItem,
+    purchasedAt: new Date().toISOString()
+  });
+
+  saveUsers(users);
+  return true;
+};
+
+export const getPurchasedMerchandise = (userId) => {
+  const users = getUsers();
+  const user = users.find(u => u.id === userId);
+  return user?.merchandise || [];
+};

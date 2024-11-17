@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, clearCart } from '../../redux/slices/cartSlice';
 import CartItem from '../../components/CartItem/CartItem';
 import styles from './Cart.module.css';
-import { addPurchasedTicket } from '../../utils/auth';
+import { addPurchasedTicket, addPurchasedMerchandise } from '../../utils/auth';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -20,12 +20,16 @@ const Cart = () => {
       return;
     }
 
-    // Save each ticket to user's purchase history
-    items.forEach(ticket => {
-      addPurchasedTicket(user.id, ticket);
+    // Process items based on their type
+    items.forEach(item => {
+      if (item.type === 'merchandise') {
+        addPurchasedMerchandise(user.id, item);
+      } else {
+        addPurchasedTicket(user.id, item);
+      }
     });
 
-    alert('Purchase successful! Check your profile for ticket details.');
+    alert('Purchase successful!');
     dispatch(clearCart());
   };
 
