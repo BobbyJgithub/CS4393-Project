@@ -18,7 +18,7 @@ const Featured = () => {
   // IDs of featured attractions you want to display
   const featuredIds = [
     'K8vZ9173-lV', // Example ID - replace with actual attraction IDs
-    'K8vZ9172Qo7',
+    'K8vZ917_Su0 ',
     'K8vZ9175Tr0'
   ];
 

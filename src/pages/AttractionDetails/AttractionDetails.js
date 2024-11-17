@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { fetchAttractionDetailsThunk, fetchAttractionEventsThunk } from '../../redux/slices/attractionDetailsSlice';
@@ -10,6 +10,9 @@ import SideInfo from '../../components/AttractionDetails/SideInfo';
 import Modal from '../../components/AttractionDetails/Modal';
 import MerchInfo from '../../components/AttractionDetails/MerchInfo';
 import ReviewsInfo from '../../components/AttractionDetails/ReviewsInfo';
+import { mockReviews } from '../../assets/mockData/mockReviewData.js';
+
+const TOTAL_RANDOM_REVIEWS = 20;
 
 function AttractionDetails() {
   const { id } = useParams();
@@ -67,6 +70,17 @@ function AttractionDetails() {
     setFanRequest('');
   };
 
+  // Move random reviews selection here
+  const randomReviews = useMemo(() => {
+    const shuffled = [...mockReviews].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, TOTAL_RANDOM_REVIEWS);
+  }, []);
+
+  const averageRating = useMemo(() => {
+    const total = randomReviews.reduce((acc, review) => acc + review.rating, 0);
+    return (total / randomReviews.length).toFixed(1);
+  }, [randomReviews]);
+
   if (isLoading) return <p>Loading attraction details...</p>;
   if (hasError) return <p>Error: {hasError} (Retrying... {retryCount}/{maxRetries})</p>;
   if (!attraction) return null;
@@ -100,6 +114,10 @@ function AttractionDetails() {
               onClick={() => setActiveTab('reviews')}
             >
               Reviews
+              <span className={styles["tab-rating"]}>
+                <span className={styles["star-filled"]}>★</span>
+                {averageRating}
+              </span>
             </button>
           </div>
           {activeTab === 'info' && (
@@ -112,7 +130,7 @@ function AttractionDetails() {
             />
           )}
           {activeTab === 'merch' && <MerchInfo attractionId={attraction.id} />}
-          {activeTab === 'reviews' && <ReviewsInfo />}
+          {activeTab === 'reviews' && <ReviewsInfo user={user} reviews={randomReviews} />}
         </div>
         <SideInfo 
           attraction={attraction} 
