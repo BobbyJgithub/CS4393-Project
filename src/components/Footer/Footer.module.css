@@ -1,20 +1,20 @@
 .footer {
-  background-color: #1f262d;
+  background-color: var(--primary-color);
   color: white;
   padding: 2rem 0;
   margin-top: auto;
 }
 
-.container {
+/* .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
-}
+} */
 
-.section {
+/* .section {
   display: flex;
   flex-direction: column;
 }
@@ -25,23 +25,23 @@
 }
 
 .section a {
-  color: #a1a1a1;
+  color: white;
   text-decoration: none;
   margin: 0.5rem 0;
 }
 
 .section a:hover {
   color: white;
-}
+} */
 
 .bottom {
   text-align: center;
-  margin-top: 2rem;
+  /* margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid #333;
+  border-top: 1px solid #333; */
 }
 
 .bottom p {
-  color: #a1a1a1;
+  color: white;
   margin: 0;
 }
