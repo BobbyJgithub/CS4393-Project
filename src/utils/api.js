@@ -74,7 +74,7 @@ export const fetchEventById = async (id) => {
 
 export const fetchAttractionById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attractions/${id}?apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`);
+    const response = await fetch(`${API_BASE_URL}/attractions/${id}.json?apikey=${process.env.REACT_APP_TICKETMASTER_API_KEY}`);
     return handleResponse(response);
   } catch (error) {
     console.error('Error fetching attraction details:', error);
